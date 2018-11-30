@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components'
 import CalendarDays from './components/CalendarDays'
 import Weekdays from './components/WeekDays'
+import ReminderInput from './components/ReminderInput';
 
 const Calendar = styled.div`
   border: 1px solid black;  
@@ -20,6 +21,7 @@ class App extends Component {
           <Weekdays />
           <CalendarDaysList />
         </Calendar>
+        <ReminderInput />
       </div>
     );
   }

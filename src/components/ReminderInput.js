@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components'
+import { connect } from 'react-redux';
 
 const TimeSelect = styled.div`
   display: flex;
@@ -18,6 +19,10 @@ class ReminderInput extends Component {
 	constructor(props) {
 		super(props);
 		this.state = initialState;
+	}
+
+	componentWillReceiveProps(nextProps) {
+		console.log(nextProps)
 	}
   
 	handleChange = (event) => {
@@ -40,7 +45,7 @@ class ReminderInput extends Component {
 	renderHours() {
 		let hours = []
 		for (let i = 0; i < 24; i++) {
-			hours.push(<option name='hour' value={this.digitsCount(i) === 1 ? `0${i}` : i} key={i}>{this.digitsCount(i) === 1 ? `0${i}` : i}</option>)
+			hours.push(<option value={this.digitsCount(i) === 1 ? `0${i}` : i} key={i}>{this.digitsCount(i) === 1 ? `0${i}` : i}</option>)
 		}
 		return hours.map(h => h)
 	}
@@ -57,44 +62,56 @@ class ReminderInput extends Component {
     event.preventDefault()
 	}
 
+	renderInput = () => {
+		if (this.props.showInput) {
+			return (
+				<form onSubmit={this.onSubmit} >
+					<input
+						type='text' 
+						name='text'
+						placeholder='Add reminder max 30 chars'
+						value={this.state.text}
+						onChange={this.handleChange} 
+						maxLength="30"
+						required />
+					<Label>
+						Select time
+						<TimeSelect>
+						<select name='hour' value={this.state.hour} onChange={this.handleChange} >
+							{this.renderHours()}
+						</select>
+						<select name='mins' value={this.state.mins} onChange={this.handleChange} >
+							<option value='00'>00</option>
+							<option value='15'>15</option>
+							<option value='30'>30</option>
+							<option value='45'>45</option>
+						</select>
+						</TimeSelect>
+					</Label>
+					<Label>
+						Select reminder color
+						<select name='color' value={this.state.color} onChange={this.handleChange} >
+							<option value='blue'>Blue</option>
+							<option value='green'>Green</option>
+							<option value='yellow'>Yellow</option>
+							<option value='red'>Red</option>
+						</select>
+					</Label>
+					<input type='submit' value='Submit' />
+				</form>
+			)
+		}
+		return null
+	}
+
 	render() {
-		return (
-			<form onSubmit={this.onSubmit} >
-				<input
-					type='text' 
-					name='text'
-					placeholder='Add reminder max 30 chars'
-					value={this.state.text}
-					onChange={this.handleChange} 
-					maxLength="30"
-					required />
-				<Label>
-					Select time
-					<TimeSelect>
-					<select name='hour' value={this.state.hour} onChange={this.handleChange} >
-						{this.renderHours()}
-					</select>
-					<select name='mins' value={this.state.mins} onChange={this.handleChange} >
-						<option value='00'>00</option>
-						<option value='15'>15</option>
-						<option value='30'>30</option>
-						<option value='45'>45</option>
-					</select>
-					</TimeSelect>
-				</Label>
-				<Label>
-					Select reminder color
-					<select name='color' value={this.state.color} onChange={this.handleChange} >
-						<option value='blue'>Blue</option>
-						<option value='green'>Green</option>
-						<option value='yellow'>Yellow</option>
-						<option value='red'>Red</option>
-					</select>
-				</Label>
-				<input type='submit' value='Submit' />
-			</form>
-		);
+		return this.renderInput()
 	}
 }
-
-export default ReminderInput;
+const mapStateToProps = (state) => {
+  return {
+		selectedReminder: state.selectedReminder,
+    showInput: state.input,
+  }
+}
+export default connect(mapStateToProps)(ReminderInput);
