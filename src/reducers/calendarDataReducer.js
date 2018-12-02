@@ -1,6 +1,4 @@
-import { ADD_REMINDER } from '../actions'
-import { UPDATE_REMINDER } from '../actions'
-import { DELETE_REMINDER } from '../actions'
+import { ADD_REMINDER, UPDATE_REMINDER, DELETE_REMINDER } from '../actions'
 
 export default function(state = [], action) {
     console.log(action);
@@ -8,9 +6,12 @@ export default function(state = [], action) {
     case ADD_REMINDER:
     return [...state, action.payload]
     case UPDATE_REMINDER:
-    return [...state, action.payload]
+    return state.map((item, i) => {
+      return item.id === action.payload.id ? item = action.payload : item
+    })
     case DELETE_REMINDER:
-    return [...state, action.payload]
+    const itemId = action.payload;
+    return state.filter(item => item.id !== itemId);
     default:
     return state
   }

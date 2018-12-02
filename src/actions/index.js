@@ -6,7 +6,6 @@ export const CLOSE_INPUT = 'CLOSE_INPUT';
 export const OPEN_INPUT = 'OPEN_INPUT';
 
 export function addReminder(data) {
-    console.log(data)
   return dispatch => {
     dispatch({
       type: ADD_REMINDER,
@@ -16,7 +15,6 @@ export function addReminder(data) {
 }
 
 export function updateReminder(data) {
-    console.log(data)
   return dispatch => {
     dispatch({
       type: UPDATE_REMINDER,
@@ -25,12 +23,11 @@ export function updateReminder(data) {
   }
 }
 
-export function deleteReminder(data) {
-    console.log(data)
+export function deleteReminder(id) {
   return dispatch => {
     dispatch({
       type: DELETE_REMINDER,
-      payload: data
+      payload: id
     })
   }
 }
@@ -45,18 +42,19 @@ export function selectReminder(data) {
   }
 }
 
-export function closeInput() {
-  return dispatch => {
-    dispatch({
-      type: CLOSE_INPUT
-    })
-  }
-}
+// export function closeInput() {
+//   return dispatch => {
+//     dispatch({
+//       type: CLOSE_INPUT
+//     })
+//   }
+// }
 
-export function openInput() {
+export function openInput(date) {
     return dispatch => {
       dispatch({
-        type: OPEN_INPUT
+        type: OPEN_INPUT,
+        payload: date
       })
     }
   }

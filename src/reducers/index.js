@@ -5,8 +5,8 @@ import InputReducer from './inputReducer';
 
 const rootReducer = combineReducers({
   calendarData: CalendarDataReducer,
-  input: InputReducer,
-  selectedReminder: SelectedReminderReducer
+  input: InputReducer
+  // selectedReminder: SelectedReminderReducer
 });
 
 export default rootReducer;

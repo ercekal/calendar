@@ -6,7 +6,7 @@ const EmptyDay = styled.div`
   background-color: gray;
   border: 1px solid black;
   width: 130px;
-  height: 200px;
+  height: 150px;
 `
 const List = styled.div`
   display: flex;

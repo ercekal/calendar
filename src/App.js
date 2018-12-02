@@ -5,24 +5,28 @@ import Weekdays from './components/WeekDays'
 import ReminderInput from './components/ReminderInput';
 
 const Calendar = styled.div`
-  border: 1px solid black;  
+  border: 1px solid black;
   max-width: 924px;
 `
 
+const Container = styled.div`
+  display: flex;
+`
+
 const CalendarDaysList = styled(CalendarDays)`
-  border: 1px solid black;  
+  border: 1px solid black;
   max-width: 924px;
 `
 class App extends Component {
   render() {
     return (
-      <div>
+      <Container>
         <Calendar>
           <Weekdays />
           <CalendarDaysList />
         </Calendar>
         <ReminderInput />
-      </div>
+      </Container>
     );
   }
 }

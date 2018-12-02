@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import styled from 'styled-components'
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import {uid} from 'react-uid';
+import { addReminder, updateReminder, deleteReminder, selectReminder, openInput } from '../actions';
 
 const TimeSelect = styled.div`
   display: flex;
@@ -23,8 +26,14 @@ class ReminderInput extends Component {
 
 	componentWillReceiveProps(nextProps) {
 		console.log(nextProps)
+		if(this.state !== nextProps.input.selectedReminder) {
+			this.setState(nextProps.input.selectedReminder)
+		}
+		if(this.props.input.date !== nextProps.input.date) {
+			this.setState(initialState)
+		}
 	}
-  
+
 	handleChange = (event) => {
     const {target} = event
     const {value, name} = target
@@ -51,27 +60,74 @@ class ReminderInput extends Component {
 	}
 
 	onSubmit = (event) => {
+		event.preventDefault()
 		if (this.state !== initialState) {
 			let newData = {
 				text: this.state.text,
 				time: `${this.state.hour}:${this.state.mins}`,
-				color: this.state.color
+				hour: this.state.hour,
+				mins: this.state.mins,
+				color: this.state.color,
+				date: this.props.input.date
 			}
-			this.props.onClickSubmit(newData)
+			let finalData = {...newData, id: uid(newData)}
+			this.props.addReminder(finalData)
+			this.setState(initialState)
 		}
-    event.preventDefault()
 	}
 
-	renderInput = () => {
-		if (this.props.showInput) {
+	onUpdate = (event) => {
+		event.preventDefault()
+		let newData = {
+			text: this.state.text,
+			time: `${this.state.hour}:${this.state.mins}`,
+			hour: this.state.hour,
+			mins: this.state.mins,
+			color: this.state.color,
+			date: this.props.input.date,
+			id: this.state.id
+		}
+		this.props.updateReminder(newData)
+	}
+
+	onDelete = () => {
+		this.props.deleteReminder(this.state.id)
+	}
+
+	renderButtons = () => {
+		console.log(this.state);
+		const {text, hour, mins, color, id} = this.state
+		if (id) {
+			let newData = {
+				text: text,
+				time: `${hour}:${mins}`,
+				hour: hour,
+				mins: mins,
+				color: color,
+				date: this.props.input.date
+			}
 			return (
-				<form onSubmit={this.onSubmit} >
+				<div>
+					<button onClick={this.onUpdate}>Update</button>
+					<button onClick={this.onDelete}>Delete</button>
+				</div>
+			)
+		}
+	}
+
+
+
+	renderInput = () => {
+		if (this.props.input.openInput) {
+			return (
+				<form>
+					<p>Date: {this.props.input.date}</p>
 					<input
-						type='text' 
+						type='text'
 						name='text'
 						placeholder='Add reminder max 30 chars'
 						value={this.state.text}
-						onChange={this.handleChange} 
+						onChange={this.handleChange}
 						maxLength="30"
 						required />
 					<Label>
@@ -97,7 +153,8 @@ class ReminderInput extends Component {
 							<option value='red'>Red</option>
 						</select>
 					</Label>
-					<input type='submit' value='Submit' />
+					<button onClick={this.onSubmit}>Add</button>
+					{this.renderButtons()}
 				</form>
 			)
 		}
@@ -108,10 +165,14 @@ class ReminderInput extends Component {
 		return this.renderInput()
 	}
 }
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({ addReminder, updateReminder, deleteReminder, selectReminder, openInput }, dispatch)
+}
+
 const mapStateToProps = (state) => {
   return {
 		selectedReminder: state.selectedReminder,
-    showInput: state.input,
+    input: state.input
   }
 }
-export default connect(mapStateToProps)(ReminderInput);
+export default connect(mapStateToProps, mapDispatchToProps)(ReminderInput);

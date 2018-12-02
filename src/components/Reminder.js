@@ -12,14 +12,12 @@ class Reminder extends Component {
 	constructor(props) {
 		super(props);
 	}
-  
+
 	render() {
-		const {item} = this.props
-		console.log(item);
-		
+		const {item, onClick} = this.props
 		return (
-			<Item color={item.color}>
-				{item.time} - 
+			<Item color={item.color} onClick={() => onClick(item)}>
+				{item.time} -
 				{item.text}
 			</Item>
 		);

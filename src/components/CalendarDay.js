@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import styled from 'styled-components'
 import {uid} from 'react-uid';
-import ReminderInput from './ReminderInput' 
-import Reminder from './Reminder' 
+import ReminderInput from './ReminderInput'
+import Reminder from './Reminder'
 import { addReminder, updateReminder, deleteReminder, selectReminder, openInput } from '../actions';
 import {isEmpty, filter, orderBy} from 'lodash'
 
@@ -14,7 +14,7 @@ const Day = styled.div`
   flex-direction: column;
   border: 1px solid black;
   width: 130px;
-  height: 200px;
+  height: 150px;
 `
 class CalendarDay extends Component {
   constructor(props) {
@@ -29,34 +29,20 @@ class CalendarDay extends Component {
     this.setState({showInput: true})
   };
 
-  onSubmit = (data) => {
-    const finalData = {...data, date: this.props.date, id: uid(data)}
-    this.props.addReminder(finalData)
-    this.setState({showInput: false});
-  }
-
-  renderInputField = () => {
-    if (this.state.showInput) {
-      return <ReminderInput date={this.props.date} onClickSubmit={this.onSubmit} />
-    }
-    return null
-  }
   renderReminders() {
-    const {calendarData, date} = this.props
+    const {calendarData, date, selectReminder} = this.props
+    console.log(calendarData);
+
     let orderedReminders
     if(!isEmpty(calendarData)) {
       const reminders = filter(calendarData, (o) => o.date === date);
-      orderedReminders = orderBy(reminders, ['time'],['asc']) 
+      orderedReminders = orderBy(reminders, ['time'],['asc'])
     }
     if(!isEmpty(orderedReminders)) {
-      return orderedReminders.map((r, i) => <Reminder item={r} key={i} onClick={selectReminder(r)}/>)
+      return orderedReminders.map((r, i) => <Reminder item={r} key={i} onClick={selectReminder}/>)
     }
   }
 
-  selectReminder(id) {
-    this.props.selectReminder(id)
-  }
-  
   render() {
     return (
       <div onClick={() => this.props.openInput(this.props.date)}>
