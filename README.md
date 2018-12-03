@@ -13,4 +13,4 @@ to clone the repo
 to install the related packages
 
 `npm start`
-to run the app in development mode. Browser will automatically open. The page will be reachable from [http://localhost:3000]
+to run the app in development mode. Browser will automatically open. The page will be reachable from (http://localhost:3000)
