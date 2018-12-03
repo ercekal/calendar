@@ -27,10 +27,11 @@ class ReminderInput extends Component {
 	}
 
 	componentWillReceiveProps(nextProps) {
-		if(!isEmpty(nextProps.input.selectedReminder)) {
+		if (!isEmpty(nextProps.input.selectedReminder)) {
 			this.setState(nextProps.input.selectedReminder)
+		} else {
+			this.setState(initialState)
 		}
-		this.setState(initialState)
 	}
 
 	handleChange = (event) => {
@@ -96,25 +97,25 @@ class ReminderInput extends Component {
 	onDelete = (event) => {
 		event.preventDefault()
 		this.props.deleteReminder(this.state.id)
+		this.setState(initialState)
 	}
 
 	renderButtons = () => {
-		if (!isEmpty(this.props.input.selectReminder)) {
-			return (
-				<div>
-					<button onClick={this.onUpdate}>Update</button>
-					<button onClick={this.onDelete}>Delete</button>
-				</div>
-			)
+		if (isEmpty(this.props.input.selectedReminder)) {
+			return <button onClick={this.onSubmit}>Add</button>
 		}
-		return <button onClick={this.onSubmit}>Add</button>
+		return (
+			<div>
+				<button onClick={this.onUpdate}>Update</button>
+				<button onClick={this.onDelete}>Delete</button>
+			</div>
+		)
 	}
 
 
 
 	renderInput = () => {
 		const {hour, mins, color, text} = this.state
-		console.log(this.props);
 		return (
 			<form>
 				<p>Date: {this.showDate()}</p>

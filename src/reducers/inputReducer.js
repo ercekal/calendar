@@ -14,7 +14,7 @@ export default function(state = INITIAL_STATE, action) {
     })
     case SELECT_REMINDER:
     return Object.assign({}, state, {
-      date: '',
+      date: action.payload.date,
       selectedReminder: action.payload
     })
     default:

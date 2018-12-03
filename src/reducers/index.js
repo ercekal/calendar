@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux';
-import CalendarDataReducer from './calendarDataReducer';
+import ReminderDataReducer from './reminderDataReducer';
 import InputReducer from './inputReducer';
 
 const rootReducer = combineReducers({
-  calendarData: CalendarDataReducer,
+  reminderData: ReminderDataReducer,
   input: InputReducer
 });
 

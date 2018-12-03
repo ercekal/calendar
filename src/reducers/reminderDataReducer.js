@@ -1,7 +1,6 @@
 import { ADD_REMINDER, UPDATE_REMINDER, DELETE_REMINDER } from '../actions'
 
 export default function(state = [], action) {
-    console.log(action);
   switch (action.type) {
     case ADD_REMINDER:
     return [...state, action.payload]

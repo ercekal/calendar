@@ -15,11 +15,17 @@ import {isEmpty, filter, orderBy} from 'lodash'
 const Day = styled.div`
   display: flex;
   justify-content: flex-start;
-  flex-direction: column;
-  border: 1px solid black;
   width: 130px;
-  height: 150px;
+  height: 100%;
 `
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 150px;
+  border: 1px solid black;
+`
+
+
 class CalendarDay extends Component {
   constructor(props) {
     super(props)
@@ -34,11 +40,10 @@ class CalendarDay extends Component {
   };
 
   renderReminders() {
-    const {calendarData, date, selectReminder} = this.props
-
+    const {reminderData, date, selectReminder} = this.props
     let orderedReminders
-    if(!isEmpty(calendarData)) {
-      const reminders = filter(calendarData, (o) => o.date === date);
+    if(!isEmpty(reminderData)) {
+      const reminders = filter(reminderData, (o) => o.date === date);
       orderedReminders = orderBy(reminders, ['time'],['asc'])
     }
     if(!isEmpty(orderedReminders)) {
@@ -53,13 +58,12 @@ class CalendarDay extends Component {
 
   render() {
     return (
-      <div>
-        <Day>
+      <Container>
+        <Day onClick={this.onClick}>
           {this.props.date}
-          {this.renderReminders()}
-          <button onClick={this.onClick}>Add reminder</button>
         </Day>
-      </div>
+        {this.renderReminders()}
+      </Container>
     );
   }
 }
@@ -76,7 +80,7 @@ function mapDispatchToProps(dispatch) {
 
 const mapStateToProps = (state) => {
   return {
-    calendarData: state.calendarData
+    reminderData: state.reminderData
   }
 }
 
