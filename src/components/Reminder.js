@@ -5,9 +5,6 @@ const Item = styled.div`
 	display: flex;
 	${(props) => props.color && `background-color: ${props.color}`}
 `
-const Label = styled.div`
-  font-size: 10px;
-`
 class Reminder extends Component {
 	constructor(props) {
 		super(props);

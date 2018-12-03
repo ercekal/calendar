@@ -1,26 +1,22 @@
-import { OPEN_INPUT, CLOSE_INPUT, SELECT_REMINDER } from '../actions'
+import { SELECT_DATE, SELECT_REMINDER } from '../actions'
 
 const INITIAL_STATE = {
-  openInput: false,
   date: '',
-  selectedReminder: {}
+  selectedReminder: {},
+  id: ''
 }
 export default function(state = INITIAL_STATE, action) {
-    console.log(action);
   switch (action.type) {
-    case OPEN_INPUT:
+    case SELECT_DATE:
     return Object.assign({}, state, {
-      openInput: true,
-      date: action.payload
+      date: action.payload,
+      selectedReminder: {}
     })
     case SELECT_REMINDER:
     return Object.assign({}, state, {
-      openInput: true,
-      selectedReminder: action.payload,
-      date: action.payload.date
+      date: '',
+      selectedReminder: action.payload
     })
-    case CLOSE_INPUT:
-    return INITIAL_STATE
     default:
     return state
   }

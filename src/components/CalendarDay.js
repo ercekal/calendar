@@ -2,10 +2,14 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import styled from 'styled-components'
-import {uid} from 'react-uid';
-import ReminderInput from './ReminderInput'
 import Reminder from './Reminder'
-import { addReminder, updateReminder, deleteReminder, selectReminder, openInput } from '../actions';
+import { 
+  addReminder,
+  updateReminder,
+  deleteReminder,
+  selectReminder,
+  selectDate
+} from '../actions';
 import {isEmpty, filter, orderBy} from 'lodash'
 
 const Day = styled.div`
@@ -31,7 +35,6 @@ class CalendarDay extends Component {
 
   renderReminders() {
     const {calendarData, date, selectReminder} = this.props
-    console.log(calendarData);
 
     let orderedReminders
     if(!isEmpty(calendarData)) {
@@ -42,13 +45,19 @@ class CalendarDay extends Component {
       return orderedReminders.map((r, i) => <Reminder item={r} key={i} onClick={selectReminder}/>)
     }
   }
+  
+  onClick = (event) => {
+		event.preventDefault()
+    this.props.selectDate(this.props.date)
+  }
 
   render() {
     return (
-      <div onClick={() => this.props.openInput(this.props.date)}>
+      <div>
         <Day>
           {this.props.date}
           {this.renderReminders()}
+          <button onClick={this.onClick}>Add reminder</button>
         </Day>
       </div>
     );
@@ -56,13 +65,18 @@ class CalendarDay extends Component {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ addReminder, updateReminder, deleteReminder, selectReminder, openInput }, dispatch)
+  return bindActionCreators({ 
+    addReminder,
+    updateReminder,
+    deleteReminder,
+    selectReminder,
+    selectDate
+  }, dispatch)
 }
 
 const mapStateToProps = (state) => {
   return {
-    calendarData: state.calendarData,
-    selectedReminder: state.selectedReminder
+    calendarData: state.calendarData
   }
 }
 

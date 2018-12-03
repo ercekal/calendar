@@ -2,8 +2,7 @@ export const ADD_REMINDER = 'ADD_REMINDER';
 export const UPDATE_REMINDER = 'UPDATE_REMINDER';
 export const DELETE_REMINDER = 'DELETE_REMINDER';
 export const SELECT_REMINDER = 'SELECT_REMINDER';
-export const CLOSE_INPUT = 'CLOSE_INPUT';
-export const OPEN_INPUT = 'OPEN_INPUT';
+export const SELECT_DATE = 'SELECT_DATE';
 
 export function addReminder(data) {
   return dispatch => {
@@ -33,7 +32,6 @@ export function deleteReminder(id) {
 }
 
 export function selectReminder(data) {
-    console.log(data)
   return dispatch => {
     dispatch({
       type: SELECT_REMINDER,
@@ -42,18 +40,10 @@ export function selectReminder(data) {
   }
 }
 
-// export function closeInput() {
-//   return dispatch => {
-//     dispatch({
-//       type: CLOSE_INPUT
-//     })
-//   }
-// }
-
-export function openInput(date) {
+export function selectDate(date) {
     return dispatch => {
       dispatch({
-        type: OPEN_INPUT,
+        type: SELECT_DATE,
         payload: date
       })
     }
